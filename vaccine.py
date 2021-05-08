@@ -4,17 +4,20 @@ import requests
 import argparse
 import smtplib
 
+# Vaccine Endpoints
 VACCINE_ENDPOINT = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id={district_id}&date={date}'
 VACCINE_ENDPOINT_PINCODE = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByPin?pincode={pincode}&date={date}'
-HEADERS = {'User-Agent': 'PostmanRuntime/7.26.10'}
+
+# Configurable Parameters
 SELECT_PINCODE_QUERY = False 
+GMAIL_USER = 'ENTER EMAIL Id'
+GMAIL_PASSWORD = 'ENTER EMAIL PASSWORD'
+TO_USERS = ['ENTER LIST OF RECEPIENTS EMAILS']
+DELAY_INTERVAL = 20  #sec
 
 def send_mail(data):
-    gmail_user = 'ENTER EMAIL ID'
-    gmail_password = 'ENTER EMAIL PASSWORD'
 
     sent_from = 'VACCINE Available MESSAGE'
-    to = ['ENTER LIST OF EMAILS']
     subject = 'OMG Super Important Message'
 
     email_text = """\
@@ -27,8 +30,8 @@ def send_mail(data):
 
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.ehlo()
-    server.login(gmail_user, gmail_password)
-    server.sendmail(sent_from, to, email_text)
+    server.login(GMAIL_USER, GMAIL_PASSWORD)
+    server.sendmail(sent_from, TO_USERS, email_text)
     server.close()
 
     print('Email sent!')
@@ -55,11 +58,11 @@ class VaccineSlots(object):
             sessions = center['sessions']
             for session in sessions:
                 print(session, center['address'], center['name'])
-                if session['available_capacity'] > 1 and session['min_age_limit'] >= self.min_age_limit:
+                if session['available_capacity'] > 0 and session['min_age_limit'] >= self.min_age_limit:
                     data.append(
                         {'name': center['name'], 'address': center['address'], 'district': center['district_name'],
                          'block_name': center['block_name'], 'session': session})
-        print(datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S'), 'FINAL DATA: ', data)
+        print(datetime.datetime.now().strftime('%d-%m-%Y %H:%M:%S'), 'Extracted Data: ', data)
         if data:
             send_mail(data)
 
@@ -71,9 +74,9 @@ class VaccineSlots(object):
         for date in date_str:
             try:
                 if SELECT_PINCODE_QUERY:
-                    data = requests.get(VACCINE_ENDPOINT_PINCODE.format(pincode=self.__pincode, date=date), headers=HEADERS)
+                    data = requests.get(VACCINE_ENDPOINT_PINCODE.format(pincode=self.__pincode, date=date), headers={'User-Agent': 'PostmanRuntime/7.26.10'})
                 else:
-                    data = requests.get(VACCINE_ENDPOINT.format(district_id=self.__district_id, date=date), headers=HEADERS)
+                    data = requests.get(VACCINE_ENDPOINT.format(district_id=self.__district_id, date=date), headers={'User-Agent': 'PostmanRuntime/7.26.10'})
             except Exception as e:
                 print('Exception in endpoint %s' % str(e))
                 continue
@@ -90,7 +93,7 @@ def main():
     slot = VaccineSlots(args.age, args.district)
     while True:
         slot.get_vaccine_slots()
-        time.sleep(20)
+        time.sleep(DELAY_INTERVAL)
 
 
 if __name__ == '__main__':
