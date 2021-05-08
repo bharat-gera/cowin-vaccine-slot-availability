@@ -9,7 +9,7 @@ VACCINE_ENDPOINT = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public
 VACCINE_ENDPOINT_PINCODE = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByPin?pincode={pincode}&date={date}'
 
 # Configurable Parameters
-SELECT_PINCODE_QUERY = False 
+SELECT_PINCODE_QUERY = True 
 GMAIL_USER = 'Gmail Email User'
 GMAIL_PASSWORD = 'GMAIL PASSWORD'
 TO_USERS = ['LIST OF EMAIL RECEIPIENTS']
