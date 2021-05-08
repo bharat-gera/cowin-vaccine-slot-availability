@@ -4,11 +4,10 @@ import requests
 import argparse
 import smtplib
 
-DISTRICT_ID = 202
 VACCINE_ENDPOINT = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id={district_id}&date={date}'
 VACCINE_ENDPOINT_PINCODE = 'https://cdn-api.co-vin.in/api/v2/appointment/sessions/calendarByPin?pincode={pincode}&date={date}'
 HEADERS = {'User-Agent': 'PostmanRuntime/7.26.10'}
-
+SELECT_PINCODE_QUERY = False 
 
 def send_mail(data):
     gmail_user = 'ENTER EMAIL ID'
@@ -65,13 +64,16 @@ class VaccineSlots(object):
             send_mail(data)
 
     def get_vaccine_slots(self):
-        numdays = 5
+        numdays = 2
         base = datetime.datetime.today()
         date_list = [base + datetime.timedelta(days=x) for x in range(numdays)]
         date_str = [x.strftime("%d-%m-%Y") for x in date_list]
         for date in date_str:
             try:
-                data = requests.get(VACCINE_ENDPOINT.format(district_id=self.__district_id, date=date), headers=HEADERS)
+                if SELECT_PINCODE_QUERY:
+                    data = requests.get(VACCINE_ENDPOINT_PINCODE.format(pincode=self.__pincode, date=date), headers=HEADERS)
+                else:
+                    data = requests.get(VACCINE_ENDPOINT.format(district_id=self.__district_id, date=date), headers=HEADERS)
             except Exception as e:
                 print('Exception in endpoint %s' % str(e))
                 continue
@@ -83,6 +85,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--age", "-a", help="set age", default=18, type=int)
     parser.add_argument("--district", "-d", help="set district", type=int, default=202)
+    parser.add_argument("--pincode", "-p", help="set pincode", type=int, default=123401)
     args = parser.parse_args()
     slot = VaccineSlots(args.age, args.district)
     while True:
