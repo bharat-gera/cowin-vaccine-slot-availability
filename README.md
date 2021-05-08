@@ -1,5 +1,5 @@
 # cowin-vaccine-slot-availability
-Get the vaccine slot Notification. It would hit the vaccine endpoint in order to get the vaccine slot of provided district_id/pincode and age. As soon as vaccine is available in the provided area, it would send the Email to the provided email users.
+Get vaccine slot Notification. It would hit the vaccine endpoint in order to get the vaccine slot of provided district_id/pincode and age. As soon as vaccine is available in the provided area, it would send the Email to the provided email users.
 
 Run Command on your machine: **python vaccine.py --age (provide age either 18 or 45) --district (provide district Id) --pincode (provide pincode)**
 
