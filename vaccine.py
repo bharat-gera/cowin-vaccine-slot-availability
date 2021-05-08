@@ -10,9 +10,9 @@ VACCINE_ENDPOINT_PINCODE = 'https://cdn-api.co-vin.in/api/v2/appointment/session
 
 # Configurable Parameters
 SELECT_PINCODE_QUERY = False 
-GMAIL_USER = 'ENTER EMAIL Id'
-GMAIL_PASSWORD = 'ENTER EMAIL PASSWORD'
-TO_USERS = ['ENTER LIST OF RECEPIENTS EMAILS']
+GMAIL_USER = 'bharatgeraan@gmail.com'
+GMAIL_PASSWORD = 'Bharat1991@1993'
+TO_USERS = ['bharatgeraan@gmail.com','arya.pallavi91@gmail.com','gambhir4@gmail.com']
 DELAY_INTERVAL = 20  #sec
 
 def send_mail(data):
@@ -90,7 +90,7 @@ def main():
     parser.add_argument("--district", "-d", help="set district", type=int, default=202)
     parser.add_argument("--pincode", "-p", help="set pincode", type=int, default=123401)
     args = parser.parse_args()
-    slot = VaccineSlots(args.age, args.district)
+    slot = VaccineSlots(args.age, args.district,args.pincode)
     while True:
         slot.get_vaccine_slots()
         time.sleep(DELAY_INTERVAL)
