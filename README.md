@@ -1,13 +1,13 @@
 # cowin-vaccine-slot-availability
-To get the vaccine slot availability. It would hit the vaccine endpoint in order to get the vaccine slot of provided district id/pincode and age. As soon as vaccine is available in the provided area, it would send the Email to the provided email users.
+Get the vaccine slot Notification. It would hit the vaccine endpoint in order to get the vaccine slot of provided district_id/pincode and age. As soon as vaccine is available in the provided area, it would send the Email to the provided email users.
 
-Run Command: **python vaccine.py --age (provide age either 18 or 45) --district (provide district Id) --pincode (provide pincode)**
+Run Command on your machine: **python vaccine.py --age (provide age either 18 or 45) --district (provide district Id) --pincode (provide pincode)**
 
-We need to either provide the district Id or pincode parameter on command args line. If we don't have district Id, please use pincode then.
+We need to either provide the district Id or pincode parameter on command line arguments. If we don't have district Id, please use pincode.
 
 We can get the district Id from the Cowin Portal.
 
-Above script would hit the vaccine availability endpoint for every 20 sec but this time can be configuratble.
+Above command would hit the vaccine availability endpoint for every 20 sec and this time can be configuratble.
 
 # Configurable Parameters
 SELECT_PINCODE_QUERY = True, In case if we are providing the pincode on command line.
@@ -20,4 +20,4 @@ GMAIL_PASSWORD = 'ENTER EMAIL PASSWORD'
 
 TO_USERS = ['ENTER LIST OF RECEPIENTS EMAILS']
 
-DELAY_INTERVAL = "sleep interval to hit the slot availability endpoint"
+DELAY_INTERVAL = 'sleep interval to hit the slot availability endpoint'
