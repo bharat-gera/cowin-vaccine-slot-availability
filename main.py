@@ -1,7 +1,8 @@
 import argparse
 import time
-from config import DELAY_INTERVAL, logger
+import config
 from vaccine import VaccineSlots
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -11,9 +12,9 @@ def main():
     args = parser.parse_args()
     slot = VaccineSlots(args.age, args.district.split(','),args.pincode.split(','))
     while True:
-        logger.info('Checking..')
+        config.logger.info('Checking..')
         slot.get_vaccine_slots()
-        time.sleep(DELAY_INTERVAL)
+        time.sleep(config.DELAY_INTERVAL)
 
 
 if __name__ == '__main__':
