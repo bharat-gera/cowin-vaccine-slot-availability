@@ -1,5 +1,5 @@
 import smtplib
-from config import logger
+import config
 
 def send_mail(data):
 
@@ -12,12 +12,12 @@ def send_mail(data):
     Subject: %s
 
     %s
-    """ % (sent_from, ", ".join(TO_USERS), subject, data)
+    """ % (sent_from, ", ".join(config.TO_USERS), subject, data)
 
     server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
     server.ehlo()
-    server.login(GMAIL_USER, GMAIL_PASSWORD)
-    server.sendmail(sent_from, TO_USERS, email_text)
+    server.login(config.GMAIL_USER, config.GMAIL_PASSWORD)
+    server.sendmail(sent_from, config.TO_USERS, email_text)
     server.close()
 
-    logger.info('Email sent!')
+    config.logger.info('Email sent!')
