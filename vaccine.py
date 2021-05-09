@@ -3,7 +3,6 @@ import requests
 from mailer import send_mail
 from config import logger, VACCINE_MINIMUM_AVAILABLE_CAPACITY,VACCINE_ENDPOINT, VACCINE_ENDPOINT_PINCODE, SELECT_PINCODE_QUERY, NUMDAYS
 
-
 class VaccineSlots(object):
     def __init__(self, min_age_limit, districts, pincodes):
         self.__min_age_limit = min_age_limit
